@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserCircle, Settings, LogOut } from "lucide-react";
+import { UserCircle, Settings, LogOut, LogIn } from "lucide-react";
 
 const UserMenu = () => {
   const { user, logout } = useAuth();
@@ -22,10 +22,6 @@ const UserMenu = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      toast({
-        title: "Logged out successfully",
-        description: "You have been logged out of your account",
-      });
       navigate('/auth');
     } catch (error) {
       console.error("Logout failed:", error);
@@ -39,10 +35,10 @@ const UserMenu = () => {
   
   if (!user) {
     return (
-      <Button variant="ghost" asChild>
+      <Button variant="outline" size="sm" asChild className="gap-2">
         <Link to="/auth">
-          <UserCircle className="h-5 w-5 mr-2" />
-          Login
+          <LogIn className="h-4 w-4" />
+          <span>Login</span>
         </Link>
       </Button>
     );
@@ -56,14 +52,16 @@ const UserMenu = () => {
           {user.email.split('@')[0]}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
-          <span>Settings</span>
+        <DropdownMenuItem asChild>
+          <Link to="/settings" className="flex w-full cursor-pointer">
+            <Settings className="mr-2 h-4 w-4" />
+            <span>Settings</span>
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600">
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>

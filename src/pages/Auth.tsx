@@ -1,8 +1,20 @@
 
 import React from "react";
 import AuthForm from "@/components/auth/AuthForm";
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Auth = () => {
+  const { user } = useAuth();
+  const location = useLocation();
+  
+  // Redirect if already logged in
+  if (user) {
+    // Get the redirect path from location state or default to home
+    const from = location.state?.from?.pathname || "/";
+    return <Navigate to={from} />;
+  }
+  
   return (
     <div className="container mx-auto px-4 py-16 mt-8 flex justify-center">
       <div className="w-full max-w-md">
